@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}SmartNinja with Jinja{% endblock title %}</title>
+
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+
+    <body>
+        <h1>Let's try out Jinja!</h1>
+        <p>
+            <a href="/">Home</a>,
+            <a href="/about-me">About me</a>
+        </p>
+
+        {% block content %}
+        {% endblock content %}
+
+        <hr>
+
+        <p>Jinja documentation: <a href="http://jinja.pocoo.org/" target="_blank">click here</a></p>
+    </body>
+</html>
