@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}About me{% endblock title %}
+
+{% block content %}
+<p>More about me :)</p>
+
+<h3>Contact me</h3>
+
+<form method="post" action="/about-me">
+    <input type="text" name="contact-name" placeholder="Enter your name">
+    <br>
+
+    <input type="email" name="contact-email" placeholder="Enter email address">
+    <br>
+
+    <textarea name="contact-message" placeholder="Enter your message"></textarea>
+    <br>
+
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock content %}

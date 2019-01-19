@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Hello, index.html here!</p>
+
+    <p>{{some_text}}</p>
+    <p>Current year: {{current_year}}</p>
+
+    {% for city in cities %}
+        <p>{{city}}</p>
+    {% endfor %}
+
+    {% if cities %}
+        <p>The cities variable exists.</p>
+    {% else %}
+        <p>There are no cities :(</p>
+    {% endif %}
+
+    {% if oranges %}
+        <p>The oranges variable exists.</p>
+    {% else %}
+        <p>There are no oranges :(</p>
+    {% endif %}
+{% endblock content %}
