@@ -9,11 +9,10 @@ app = Flask(__name__)
 def index():
     email_address = request.cookies.get("email")
 
-    user = None
     if email_address:
-        users = User.fetch(query=["email", "==", email_address])
-        if users:
-            user = users[0]  # take the first element from the list
+        user = User.fetch_one(query=["email", "==", email_address])
+    else:
+        user = None
 
     return render_template("index.html", user=user)
 
@@ -43,15 +42,8 @@ def result():
 
     email_address = request.cookies.get("email")
 
-    if email_address:
-        # get user object from the database
-        users = User.fetch(query=["email", "==", email_address])
-        if users:
-            user = users[0]
-        else:
-            return render_template("index.html", user=None)
-    else:
-        return render_template("index.html", user=None)
+    # get user from the database based on her/his email address
+    user = User.fetch_one(query=["email", "==", email_address])
 
     if guess == user.secret_number:
         message = "Correct! The secret number is {0}".format(str(guess))

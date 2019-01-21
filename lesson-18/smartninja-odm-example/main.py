@@ -9,9 +9,7 @@ def index():
     email_address = request.cookies.get("email")
 
     if email_address:
-        query = ["email", "==", email_address]
-        users = User.fetch(query=query)
-        user = users[0]  # take the first element from the list
+        user = User.fetch_one(query=["email", "==", email_address])
     else:
         user = None
 
