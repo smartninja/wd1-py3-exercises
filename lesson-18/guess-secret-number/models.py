@@ -1,8 +1,13 @@
-from smartninja_odm.odm import Model
+from utils import get_mongo_db
 
 
-class User(Model):
-    def __init__(self, name, email):
-        super().__init__()
+class User:
+    def __init__(self, name, email, secret_number):
         self.name = name
         self.email = email
+        self.secret_number = secret_number
+
+    @classmethod
+    def get_collection(cls):
+        db = get_mongo_db()
+        return db[cls.__name__]
