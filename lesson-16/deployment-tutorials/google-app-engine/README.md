@@ -26,6 +26,10 @@ handlers:
   static_dir: static
 - url: /.*
   script: auto
+
+# add this if you want to use Datastore instead of the Firestore
+env_variables:
+  GAE_DATABASE: "datastore"
 ```
 
 This code basically says that your project needs Python 3.7 and that the `static` folder should be accessible via the `/static` URL.
@@ -66,16 +70,16 @@ Click on **"Your first app"** and select **Python**:
 
 ## Step 5: Choose the server region
 
-Choose the **servers region** where you want your web app to be hosted. Usually you'd choose the region closest to you, but in our case **choose only between these two regions**:
+Choose the **servers region** where you want your web app to be hosted.
+
+If you'd like to use Cloud Datastore as your database, choose any region. But if you'd like to use Firestore, you can (for now) choose only one of these two regions:
 
 - us-east1
 - europe-west3
 
-Why only one of these two? Because we will use Firestore database later in the course and for now Firestore is only available for GAE apps in these two regions.
+This is because Firestore is still in beta.
 
 ![](static/img/5-choose-region.png)
-
-(don't mind that the "us-central" is selected in this image. Select either `us-east1` or `europe-west3` instead!)
 
 ## Step 6: Wait while Google Cloud prepares GAE
 
@@ -149,7 +153,11 @@ Click on **Open in Cloud Shell** button (if you can't find it, try to find its i
 
 ## Step 16: gcloud app deploy
 
-A terminal window will appear (in the bottom of the screen). Enter `gcloud app deploy app.yaml` in it:
+A terminal window will appear (in the bottom of the screen). Enter the following command in it:
+
+	gcloud app deploy app.yaml --version main
+
+The `--version main` flag is optional, but recommended.
 
 ![](static/img/17-gcloud-app-deploy.png)
 

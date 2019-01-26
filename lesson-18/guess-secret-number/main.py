@@ -25,9 +25,13 @@ def login():
     # create a secret number
     secret_number = random.randint(1, 30)
 
-    # create a User object
-    user = User(name=name, email=email, secret_number=secret_number)
-    user.create()  # save the object into a database
+    # see if user already exists
+    user = User.fetch_one(query=["email", "==", email])
+
+    if not user:
+        # create a User object
+        user = User(name=name, email=email, secret_number=secret_number)
+        user.create()  # save the object into a database
 
     # save user's email into a cookie
     response = make_response(redirect(url_for('index')))
