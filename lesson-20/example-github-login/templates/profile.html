@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Profile page</h1>
+
+<p>This is your profile page. It is visible to you only.</p>
+
+<h3>Your GitHub data:</h3>
+
+<img width="200px" src="{{github_profile_data.avatar_url}}">
+
+<p><strong>Username:</strong> {{github_profile_data.login}}</p>
+<p><strong>Full name:</strong> {{github_profile_data.name}}</p>
+<p><strong>Location:</strong> {{github_profile_data.location}}</p>
+<p><strong>Blog:</strong> {{github_profile_data.blog}}</p>
+<p><strong>Email:</strong> {{github_profile_data.email}}</p>
+<p><strong>Number of public repositories:</strong> {{github_profile_data.public_repos}}</p>
+{% endblock content %}

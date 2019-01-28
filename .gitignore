@@ -5,3 +5,4 @@ __pycache__/
 .idea
 tinydb/
 database/
+secrets.py
