@@ -6,3 +6,4 @@ __pycache__/
 tinydb/
 database/
 secrets.py
+.pytest_cache
