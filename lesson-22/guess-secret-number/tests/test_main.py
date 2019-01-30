@@ -2,6 +2,7 @@ import os
 import pytest
 from main import app
 from models import User
+from tinydb import TinyDB
 
 
 @pytest.fixture
@@ -10,6 +11,14 @@ def client():
     os.environ["TESTING"] = "1"  # this creates a TinyDB test database. Works ONLY with smartninja-odm on localhost!
     client = app.test_client()
     yield client
+
+    cleanup()  # clean up after every test
+
+
+def cleanup():
+    # clean up the DB
+    db = TinyDB('test_db.json')
+    db.purge_tables()
 
 
 def test_index_not_logged_in(client):
@@ -64,3 +73,57 @@ def test_profile(client):
 
     response = client.get('/profile')
     assert b'Your profile' in response.data
+
+
+def test_profile_edit(client):
+    client.post('/login', data={"user-name": "Test User", "user-email": "test@user.com",
+                                "user-password": "password123"}, follow_redirects=True)
+
+    # GET
+    response = client.get('/profile/edit')
+    assert b'Edit your profile' in response.data
+
+    # POST
+    response = client.post('/profile/edit', data={"profile-name": "Test User 2", "profile-email": "test2@user.com"},
+                           follow_redirects=True)
+    assert b'Test User 2' in response.data
+    assert b'test2@user.com' in response.data
+
+
+def test_profile_delete(client):
+    client.post('/login', data={"user-name": "Test User", "user-email": "test@user.com",
+                                "user-password": "password123"}, follow_redirects=True)
+
+    # GET
+    response = client.get('/profile/delete')
+    assert b'Delete your profile' in response.data
+
+    # POST
+    response = client.post('/profile/delete', follow_redirects=True)
+    assert b'Enter your name' in response.data  # redirected back to the index site
+
+
+def test_all_users(client):
+    response = client.get('/users')
+    assert b'<h3>Users</h3>' in response.data
+
+    # create a new user
+    client.post('/login', data={"user-name": "Test User", "user-email": "test@user.com",
+                                "user-password": "password123"}, follow_redirects=True)
+
+    response = client.get('/users')
+    assert b'<h3>Users</h3>' in response.data
+    assert b'Test User' in response.data
+
+
+def test_user_details(client):
+    # create a new user
+    client.post('/login', data={"user-name": "Test User", "user-email": "test@user.com",
+                                "user-password": "password123"}, follow_redirects=True)
+
+    # get user object from the database
+    user = User.fetch_one(query=["email", "==", "test@user.com"])
+
+    response = client.get('/user/{}'.format(user.id))
+    assert b'test@user.com' in response.data
+    assert b'Test User' in response.data
