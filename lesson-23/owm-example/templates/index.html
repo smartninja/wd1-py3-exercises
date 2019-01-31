@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SmartNinja Weather</title>
+    </head>
+
+    <body>
+        <h1>SmartNinja Weather</h1>
+
+        <p>Location: {{ data.name }}</p>
+        <p>Weather description: {{ data.weather[0].description }}</p>
+        <p>Current temperature: {{ data.main.temp }}</p>
+    </body>
+</html>
