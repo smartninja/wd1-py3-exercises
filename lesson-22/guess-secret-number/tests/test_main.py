@@ -8,7 +8,7 @@ from tinydb import TinyDB
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    os.environ["TESTING"] = "1"  # this creates a TinyDB test database. Works ONLY with smartninja-odm on localhost!
+    os.environ["TESTING"] = "1"  # this creates a TinyDB test database. Works ONLY with smartninja-nosql on localhost!
     client = app.test_client()
     yield client
 

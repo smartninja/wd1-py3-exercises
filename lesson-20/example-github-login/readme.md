@@ -1,7 +1,7 @@
 #### Dependencies
 
 	Flask==1.0.2
-	smartninja-odm
+	smartninja-nosql
 	requests_oauthlib
 	pymongo
 

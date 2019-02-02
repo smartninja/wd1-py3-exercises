@@ -1,4 +1,4 @@
-from smartninja_odm.odm import Model
+from smartninja_nosql.odm import Model
 
 
 class User(Model):
