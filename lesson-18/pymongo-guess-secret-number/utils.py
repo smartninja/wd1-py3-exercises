@@ -15,7 +15,7 @@ def get_mongo_db(url=None):
 
         from pymongo import MongoClient
         client = MongoClient(url)
-        db_name = url.replace("mongodb://").split("/")[1]
+        db_name = url.replace("mongodb://", "").split("/")[1]
         return client[db_name]
     else:  # localhost
         from tinymongo import TinyMongoClient
