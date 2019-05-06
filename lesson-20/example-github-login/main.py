@@ -19,7 +19,7 @@ def github_login():
     authorization_url, state = github.authorization_url("https://github.com/login/oauth/authorize")  # GitHub authorization URL
 
     response = make_response(redirect(authorization_url))  # redirect user to GitHub for authorization
-    response.set_cookie("oauth_state", state)  # for CSRF purposes
+    response.set_cookie("oauth_state", state, httponly=True, samesite='Strict')  # for CSRF purposes
 
     return response
 
@@ -32,7 +32,7 @@ def github_callback():
                                authorization_response=request.url)
 
     response = make_response(redirect(url_for('profile')))  # redirect to the profile page
-    response.set_cookie("oauth_token", json.dumps(token))
+    response.set_cookie("oauth_token", json.dumps(token), httponly=True, samesite='Strict')
 
     return response
 

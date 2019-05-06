@@ -49,7 +49,7 @@ def login():
 
         # save user's session token into a cookie
         response = make_response(redirect(url_for('index')))
-        response.set_cookie("session_token", session_token)
+        response.set_cookie("session_token", session_token, httponly=True, samesite='Strict')
 
         return response
 
