@@ -4,7 +4,5 @@ __pycache__/
 *.json
 .idea
 tinydb/
-database/
-secrets.py
 .pytest_cache
 .sqlite
