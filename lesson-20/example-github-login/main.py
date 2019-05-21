@@ -3,7 +3,11 @@ import json
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from requests_oauthlib import OAuth2Session
 import os
-import secrets  # DELETE THIS LINE WHEN DEPLOYING TO A SERVER. THIS LINE IS FOR LOCALHOST ONLY!
+
+try:
+    import secrets  # only needed for localhost, that's why it's in the try/except statement
+except Exception as e:
+    pass
 
 app = Flask(__name__)
 
