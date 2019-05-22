@@ -1,3 +1,7 @@
+venv/
+*.py[cod]
+.idea
+*.sqlite
+.pytest_cache/
+__pycache__/
 secrets.py
-db.json
-*.pyc
