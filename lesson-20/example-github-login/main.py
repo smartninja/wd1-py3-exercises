@@ -12,17 +12,6 @@ except ImportError as e:
 app = Flask(__name__)
 
 
-def is_local():
-    with app.test_request_context("/"):
-        root_url = str(request.url_root)
-        developer_url = "http://127.0.0.1/"
-        developer_url2 = "http://localhost/"
-        return root_url == developer_url or root_url == developer_url2
-
-
-local = is_local()
-
-
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -47,10 +36,7 @@ def github_callback():
                                authorization_response=request.url)
 
     response = make_response(redirect(url_for('profile')))  # redirect to the profile page
-    if local:
-        response.set_cookie("oauth_token", json.dumps(token), httponly=True)
-    else:
-        response.set_cookie("oauth_token", json.dumps(token), httponly=True, samesite='Strict')
+    response.set_cookie("oauth_token", json.dumps(token), httponly=True)
 
     return response
 
