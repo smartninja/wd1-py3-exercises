@@ -8,3 +8,4 @@ database/
 secrets.py
 .pytest_cache
 .sqlite
+*.DS_Store

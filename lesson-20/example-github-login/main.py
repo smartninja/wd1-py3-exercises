@@ -6,7 +6,7 @@ import os
 
 try:
     import secrets  # only needed for localhost, that's why it's in the try/except statement
-except Exception as e:
+except ImportError as e:
     pass
 
 app = Flask(__name__)
@@ -36,7 +36,7 @@ def github_callback():
                                authorization_response=request.url)
 
     response = make_response(redirect(url_for('profile')))  # redirect to the profile page
-    response.set_cookie("oauth_token", json.dumps(token), httponly=True, samesite='Strict')
+    response.set_cookie("oauth_token", json.dumps(token), httponly=True)
 
     return response
 
