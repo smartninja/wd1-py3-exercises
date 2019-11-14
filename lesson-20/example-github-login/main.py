@@ -6,10 +6,21 @@ import os
 
 try:
     import secrets  # only needed for localhost, that's why it's in the try/except statement
-except Exception as e:
+except ImportError as e:
     pass
 
 app = Flask(__name__)
+
+
+def is_local():
+    with app.test_request_context("/"):
+        root_url = str(request.url_root)
+        developer_url = "http://127.0.0.1/"
+        developer_url2 = "http://localhost/"
+        return root_url == developer_url or root_url == developer_url2
+
+
+local = is_local()
 
 
 @app.route("/")
@@ -36,7 +47,10 @@ def github_callback():
                                authorization_response=request.url)
 
     response = make_response(redirect(url_for('profile')))  # redirect to the profile page
-    response.set_cookie("oauth_token", json.dumps(token), httponly=True, samesite='Strict')
+    if local:
+        response.set_cookie("oauth_token", json.dumps(token), httponly=True)
+    else:
+        response.set_cookie("oauth_token", json.dumps(token), httponly=True, samesite='Strict')
 
     return response
 
