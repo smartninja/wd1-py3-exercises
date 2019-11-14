@@ -23,7 +23,7 @@ def github_login():
     authorization_url, state = github.authorization_url("https://github.com/login/oauth/authorize")  # GitHub authorization URL
 
     response = make_response(redirect(authorization_url))  # redirect user to GitHub for authorization
-    response.set_cookie("oauth_state", state, httponly=True, samesite='Strict')  # for CSRF purposes
+    response.set_cookie("oauth_state", state, httponly=True)  # for CSRF purposes
 
     return response
 
