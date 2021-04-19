@@ -37,4 +37,4 @@ def login():
 
 
 if __name__ == '__main__':
-    app.run()  # if you use the port parameter, delete it before deploying to Heroku
+    app.run(use_reloader=True)  # if you use the port parameter, delete it before deploying to Heroku
