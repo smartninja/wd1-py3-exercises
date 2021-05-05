@@ -1,40 +1,38 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
-from models import User, db
+import os
+from flask import Flask, render_template, request, redirect
+from sqla_wrapper import SQLAlchemy
 
 app = Flask(__name__)
-db.create_all()  # create (new) tables in the database
+
+db = SQLAlchemy(os.getenv("DATABASE_URL", "sqlite:///db.sqlite"))
 
 
-@app.route("/")
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String, unique=False)
+    text = db.Column(db.String, unique=False)
+
+
+db.create_all()
+
+
+@app.route("/", methods=["GET"])
 def index():
-    email_address = request.cookies.get("email")
+    messages = db.query(Message).all()
 
-    if email_address:
-        user = db.query(User).filter_by(email=email_address).first()
-    else:
-        user = None
-
-    return render_template("index.html", user=user)
+    return render_template("index.html", messages=messages)
 
 
-@app.route("/login", methods=["POST"])
-def login():
-    name = request.form.get("user-name")
-    email = request.form.get("user-email")
+@app.route("/add-message", methods=["POST"])
+def add_message():
+    username = request.form.get("username")
+    text = request.form.get("text")
 
-    # create a User object
-    user = User(name=name, email=email)
+    message = Message(author=username, text=text)
+    message.save()
 
-    # save the user object into a database
-    db.add(user)
-    db.commit()
-
-    # save user's email into a cookie
-    response = make_response(redirect(url_for('index')))
-    response.set_cookie("email", email)
-
-    return response
+    return redirect("/")
 
 
-if __name__ == '__main__':
-    app.run(use_reloader=True)  # if you use the port parameter, delete it before deploying to Heroku
+if __name__ == "__main__":
+    app.run(use_reloader=True)

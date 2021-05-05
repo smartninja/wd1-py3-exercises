@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Simple database example</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Simple database example</title>
+    </head>
 
-    <h1>Simple database example</h1>
+    <body>
+        <h1>Chat website</h1>
 
-    {% if user %}
-        <p>Hello {{user.name}}</p>
-        <p>This is your email address: {{user.email}}</p>
-    {% else %}
-        <form method="post" action="/login">
-            <input type="text" name="user-name" placeholder="Enter your name"><br>
-            <input type="email" name="user-email" placeholder="Enter your email address"><br>
+        <form action="/add-message" method="post">
+            <input name="username" placeholder="Enter your name">
+            <br>
+            <br>
 
-            <button>Submit</button>
+            <textarea placeholder="Enter your message" name="text" rows="5"></textarea>
+            <br>
+
+            <button type="submit">Submit</button>
         </form>
-    {% endif %}
 
-</body>
+        <hr>
+
+        <h2>Messages:</h2>
+
+        {% for message in messages %}
+        <p>
+            <strong>{{ message.author }}:</strong>
+            {{message.text}}
+        </p>
+        {% endfor %}
+    </body>
 </html>

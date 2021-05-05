@@ -39,10 +39,7 @@ def login():
     if not user:
         # create a User object
         user = User(name=name, email=email, secret_number=secret_number, password=hashed_password)
-
-        # save the user object into a database
-        db.add(user)
-        db.commit()
+        user.save()
 
     # check if password is incorrect
     if hashed_password != user.password:
@@ -53,8 +50,7 @@ def login():
 
         # save the session token in a database
         user.session_token = session_token
-        db.add(user)
-        db.commit()
+        user.save()
 
         # save user's session token into a cookie
         response = make_response(redirect(url_for('index')))
@@ -80,10 +76,7 @@ def result():
 
         # update the user's secret number
         user.secret_number = new_secret
-
-        # update the user object in a database
-        db.add(user)
-        db.commit()
+        user.save()
     elif guess > user.secret_number:
         message = "Your guess is not correct... try something smaller."
     elif guess < user.secret_number:
