@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Simple database example</title>
+    </head>
+
+    <body>
+        <h1>Chat website</h1>
+
+        <!-- Add new message -->
+        <form action="/add-message" method="post">
+            <input name="username" placeholder="Enter your name">
+            <br>
+            <br>
+
+            <textarea placeholder="Enter your message" name="text" rows="5"></textarea>
+            <br>
+
+            <button type="submit">Submit</button>
+        </form>
+        <!-- END - Add new message -->
+
+        <hr>
+
+        <!-- Messages -->
+        <h2>Messages:</h2>
+
+        {% for message in messages.items %}
+        <p>
+            <strong>{{ message.author }}:</strong>
+            {{message.text}}
+        </p>
+        {% endfor %}
+        <!-- END - Messages -->
+
+        <br>
+
+        <!-- Pagination -->
+        <p>
+            {% for page_num in range(messages.pages) %}
+            <a href="/?page={{page_num+1}}">Page {{page_num+1}}</a> |
+            {% endfor %}
+        </p>
+        <!-- END - Pagination -->
+
+    </body>
+</html>
