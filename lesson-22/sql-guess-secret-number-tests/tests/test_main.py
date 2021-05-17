@@ -1,12 +1,14 @@
 import os
 import pytest
+
+# important: this line needs to be set BEFORE the "app" import
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
 from main import app, db
 
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
-    os.environ["DATABASE_URL"] = "sqlite:///:memory:"
     client = app.test_client()
 
     cleanup()  # clean up before every test

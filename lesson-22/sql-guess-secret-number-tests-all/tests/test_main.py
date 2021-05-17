@@ -1,13 +1,15 @@
 import os
 import pytest
+
+# important: this line needs to be set BEFORE the "app" import
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+
 from main import app, db
 from models import User
 
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
-    os.environ["DATABASE_URL"] = "sqlite:///:memory:"
     client = app.test_client()
 
     cleanup()  # clean up before every test
@@ -47,8 +49,7 @@ def test_result_correct(client):
     
     # set the secret number to 22, so that you can make a success "guess" in the test.
     user.secret_number = 22
-    db.add(user)
-    db.commit()
+    user.save()
 
     response = client.post('/result', data={"guess": 22})  # enter the correct guess
     assert b'Correct! The secret number is 22' in response.data
@@ -63,8 +64,7 @@ def test_result_incorrect_try_bigger(client):
     user = db.query(User).first()
 
     user.secret_number = 22
-    db.add(user)
-    db.commit()
+    user.save()
 
     response = client.post('/result', data={"guess": 13})  # enter the wrong guess (too small)
     assert b'Your guess is not correct... try something bigger.' in response.data
@@ -79,8 +79,7 @@ def test_result_incorrect_try_smaller(client):
     user = db.query(User).first()
 
     user.secret_number = 22
-    db.add(user)
-    db.commit()
+    user.save()
 
     response = client.post('/result', data={"guess": 27})  # enter the wrong guess (too big)
     assert b'Your guess is not correct... try something smaller.' in response.data
