@@ -1,6 +1,6 @@
 #### Dependencies
 
-	Flask==1.0.2
+	Flask==2.0.3
     gunicorn==19.9.0
     requests_oauthlib
 

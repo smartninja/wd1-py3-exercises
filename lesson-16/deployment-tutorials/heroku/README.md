@@ -11,7 +11,7 @@ The tutorial also assumes that you have a Flask web app already created. But you
 You requirements.txt file should look like this:
 
 ```
-Flask==1.0.2
+Flask==2.0.3
 gunicorn==19.9.0
 ```
 
